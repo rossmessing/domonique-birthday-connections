@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Connections</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── Puzzle selection screen ── -->
+  <div id="selection-screen" class="screen active">
+    <header class="app-header">
+      <h1>Connections</h1>
+      <p class="subtitle">Group words that share a common thread.</p>
+    </header>
+    <div id="puzzle-list" class="puzzle-list"></div>
+  </div>
+
+  <!-- ── Game screen ── -->
+  <div id="game-screen" class="screen">
+    <header class="game-header">
+      <button id="back-btn" class="back-btn" aria-label="Back to puzzle list">&#8592; Back</button>
+      <h2 id="game-title" class="game-title"></h2>
+      <div style="width:60px"></div><!-- spacer to centre title -->
+    </header>
+
+    <div id="game-content">
+      <p id="flavor-text" class="flavor-text hidden"></p>
+
+      <div id="solved-groups" class="solved-groups" aria-live="polite"></div>
+
+      <div id="word-grid" class="word-grid" role="group" aria-label="Word tiles"></div>
+
+      <div class="mistakes-row">
+        <span class="mistakes-label">Mistakes remaining:</span>
+        <div id="mistake-dots" class="mistake-dots" aria-label="Mistakes remaining"></div>
+      </div>
+
+      <div class="action-buttons">
+        <button id="shuffle-btn"   class="btn btn-secondary">Shuffle</button>
+        <button id="deselect-btn"  class="btn btn-secondary" disabled>Deselect All</button>
+        <button id="submit-btn"    class="btn btn-primary"   disabled>Submit</button>
+      </div>
+    </div>
+
+    <!-- floating toast -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <!-- end-game overlay -->
+    <div id="end-overlay" class="end-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="end-title">
+      <div class="end-card">
+        <div id="end-emoji"   class="end-emoji"></div>
+        <h2  id="end-title"   class="end-title"></h2>
+        <p   id="end-message" class="end-message"></p>
+        <div id="end-results" class="end-results"></div>
+        <div class="end-actions">
+          <button id="play-again-btn"   class="btn btn-primary">Play Again</button>
+          <button id="back-to-list-btn" class="btn btn-secondary">All Puzzles</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
