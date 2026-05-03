@@ -50,5 +50,31 @@
         "words": ["PIANO", "MONKEY", "FLORIDA", "TURNPIKE"]
       }
     ]
+  },
+  {
+    "id": "puzzle-001",
+    "title": "For My Favorite Reader",
+    "groups": [
+      {
+        "category": "Crescent City Characters",
+        "tier": 0,
+        "words": ["BRYCE", "HUNT", "RUHN", "DANIKA"]
+      },
+      {
+        "category": "Outlander Characters",
+        "tier": 1,
+        "words": ["JAMIE", "CLAIRE", "BRIANNA", "ROGER"]
+      },
+      {
+        "category": "Christina C. Jones Characters",
+        "tier": 2,
+        "words": ["REESE", "JORDAN", "RAMSEY", "KENSA"]
+      },
+      {
+        "category": "Marvel Characters",
+        "tier": 3,
+        "words": ["FURY", "LOGAN", "FRANK", "IAN"]
+      }
+    ]
   }
 ]
