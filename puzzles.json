@@ -1,7 +1,7 @@
 [
   {
     "id": "puzzle-001",
-    "title": "With whom you escape",
+    "title": "With Whom You Escape",
     "groups": [
       {
         "category": "Crescent City Characters",
@@ -22,6 +22,32 @@
         "category": "Marvel Characters and Actors",
         "tier": 3,
         "words": ["FURY", "HUGH", "FRANK", "IAN"]
+      }
+    ]
+  },
+  {
+    "id": "puzzle-002",
+    "title": "Who's Who",
+    "groups": [
+      {
+        "category": "Best Friends",
+        "tier": 0,
+        "words": ["CADESHA", "SCHENITA", "JARETTA", "ROSE"]
+      },
+      {
+        "category": "Sensory Space Therapists",
+        "tier": 2,
+        "words": ["KERRY", "MICHELE", "NICOLE", "DANIELLE"]
+      },
+      {
+        "category": "NYSAPT Board Members",
+        "tier": 2,
+        "words": ["MARY", "CAMILLE", "MARIA", "KELLY"]
+      },
+      {
+        "category": "Homophones for Tyrone Gadsden's Children Without a Tyrone-inspired prefix",
+        "tier": 3,
+        "words": ["ANNA", "SERE", "RHONE", "VAUGN"]
       }
     ]
   }
