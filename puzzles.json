@@ -1,58 +1,6 @@
 [
   {
     "id": "puzzle-001",
-    "title": "A Taste of Connections",
-    "groups": [
-      {
-        "category": "Breakfast Foods",
-        "tier": 0,
-        "words": ["WAFFLE", "PANCAKE", "OATMEAL", "BAGEL"]
-      },
-      {
-        "category": "Taylor Swift Albums",
-        "tier": 1,
-        "words": ["FOLKLORE", "FEARLESS", "EVERMORE", "REPUTATION"]
-      },
-      {
-        "category": "Shades of Yellow",
-        "tier": 2,
-        "words": ["AMBER", "GOLD", "LEMON", "CANARY"]
-      },
-      {
-        "category": "___ Stone",
-        "tier": 3,
-        "words": ["KIDNEY", "ROLLING", "COBBLE", "LIME"]
-      }
-    ]
-  },
-  {
-    "id": "puzzle-002",
-    "title": null,
-    "groups": [
-      {
-        "category": "Things on a Beach",
-        "tier": 0,
-        "words": ["SAND", "SHELL", "WAVE", "TOWEL"]
-      },
-      {
-        "category": "___ Ball",
-        "tier": 1,
-        "words": ["BASKET", "BASE", "SNOW", "FIRE"]
-      },
-      {
-        "category": "Tom ___",
-        "tier": 2,
-        "words": ["HANKS", "CRUISE", "HARDY", "PETTY"]
-      },
-      {
-        "category": "Kinds of Keys",
-        "tier": 3,
-        "words": ["PIANO", "MONKEY", "FLORIDA", "TURNPIKE"]
-      }
-    ]
-  },
-  {
-    "id": "puzzle-001",
     "title": "For My Favorite Reader",
     "groups": [
       {
