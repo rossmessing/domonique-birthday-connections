@@ -50,5 +50,31 @@
         "words": ["ANNA", "SERE", "RHONE", "VAUGN"]
       }
     ]
-  }
+  },
+  {
+  "id": "puzzle-003",
+  "title": "What's Appealing",
+  "groups": [
+    {
+      "category": "Handbag Brands",
+      "tier": 0,
+      "words": ["COACH", "TELFAR", "MULBERRY", "CHLOE"]
+    },
+    {
+      "category": "Houseplants",
+      "tier": 1,
+      "words": ["JADE", "IVY", "SNAKE", "FIDDLE"]
+    },
+    {
+      "category": "Designer names",
+      "tier": 2,
+      "words": ["REED", "LOUIS", "COLE", "BLACKWOOD"]
+    },
+    {
+      "category": "Prefix of a Hudson Valley town",
+      "tier": 3,
+      "words": ["PINE", "CORN", "BRIAR", "ELM"]
+    }
+  ]
+}
 ]
