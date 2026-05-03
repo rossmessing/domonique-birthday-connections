@@ -2,7 +2,7 @@
 
 A self-contained NYT Connections clone. No backend, no build step, no framework — just three files and a JSON puzzle list.
 
-**Bookmarkable URL:** [`https://rossmessing.github.io/connections/`](https://rossmessing.github.io/connections/)
+**Bookmarkable URL:** [`https://rossmessing.github.io/domonique-birthday-connections/`](https://rossmessing.github.io/domonique-birthday-connections/)
 
 ---
 
