@@ -188,10 +188,14 @@ body {
 
 .solved-group {
   border-radius: var(--radius);
-  padding: 12px 10px;
+  padding: 0 10px;
   text-align: center;
-  transform-origin: top;
-  animation: solvedIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* height is set to match tile height by syncSolvedGroupHeights() in JS */
+  animation: solvedIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .solved-group-category {
   font-size: 13px;
@@ -401,8 +405,9 @@ body {
 }
 
 @keyframes solvedIn {
-  from { transform: scaleY(0.2); opacity: 0; }
-  to   { transform: scaleY(1);   opacity: 1; }
+  0%   { transform: translateY(-24px); opacity: 0; }
+  65%  { transform: translateY(5px);   opacity: 1; }
+  100% { transform: translateY(0);     opacity: 1; }
 }
 
 @keyframes popIn {

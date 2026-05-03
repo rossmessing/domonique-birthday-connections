@@ -29,11 +29,13 @@ const LS_PREFIX    = 'conn_';
 
 // ─── runtime state ────────────────────────────────────────────────────────────
 
-let puzzles       = [];
-let currentPuzzle = null;
-let gameState     = null;
-let selectedWords = new Set();
-let isAnimating   = false;
+let puzzles         = [];
+let currentPuzzle   = null;
+let gameState       = null;
+let selectedWords   = new Set();
+let isAnimating     = false;
+let lastSolvedTier  = null; // tier just solved this turn; renderSolvedGroups uses it to skip re-animating existing rows
+let boardObserver   = null; // ResizeObserver that keeps solved-group rows the same height as tiles
 
 // ─── init ─────────────────────────────────────────────────────────────────────
 
@@ -140,6 +142,7 @@ function openPuzzle(puzzleId) {
   document.getElementById('end-overlay').classList.add('hidden');
 
   renderGame();
+  setupBoardObserver();
 
   // Re-surface end overlay for already-finished puzzles
   if (gameState.status === 'completed' || gameState.status === 'failed') {
@@ -166,18 +169,21 @@ function renderGame() {
   renderWordGrid();
   renderMistakeDots();
   updateButtons();
+  syncSolvedGroupHeights();
 }
 
 function renderSolvedGroups() {
   const wrap = document.getElementById('solved-groups');
   wrap.innerHTML = '';
-  // Sort by tier so they always stack in order 0→3
   const sorted = [...gameState.solvedTiers].sort((a, b) => a - b);
   sorted.forEach(tier => {
     const grp = currentPuzzle.groups.find(g => g.tier === tier);
     if (!grp) return;
     const div = document.createElement('div');
     div.className = 'solved-group';
+    // Suppress the slide-in animation for rows that were already visible;
+    // only the tier that was just solved this turn should animate in.
+    if (tier !== lastSolvedTier) div.style.animation = 'none';
     div.style.background = TIER_COLORS[tier];
     div.innerHTML =
       `<div class="solved-group-category">${esc(grp.category)}</div>
@@ -291,7 +297,9 @@ async function handleSubmit() {
     gameState.status = gameState.solvedTiers.length === 4 ? 'completed' : 'inprogress';
     lsSet(currentPuzzle.id, gameState);
 
+    lastSolvedTier = match.tier;
     renderGame();
+    lastSolvedTier = null;
 
     if (gameState.status === 'completed') {
       setTimeout(showEndOverlay, 700);
@@ -332,11 +340,11 @@ async function handleSubmit() {
 
 async function animateCorrect(guess, tier) {
   const tiles = guess.map(w => tileEl(w)).filter(Boolean);
-  // Staggered flip
+
+  // Phase 1: staggered scaleX flip, colour swap at the invisible midpoint
   tiles.forEach((t, i) => {
     setTimeout(() => {
       t.classList.add('flipping');
-      // Swap colour at midpoint (tile is invisible at 45%)
       setTimeout(() => {
         t.style.background = TIER_COLORS[tier];
         t.style.color = '#1a1a1b';
@@ -344,6 +352,15 @@ async function animateCorrect(guess, tier) {
     }, i * 80);
   });
   await delay(tiles.length * 80 + 420);
+
+  // Phase 2: tiles fly upward and fade out, signalling they're moving to the solved row
+  tiles.forEach(t => {
+    t.style.transition = 'transform 0.28s ease-in, opacity 0.22s ease-in';
+    t.style.transform  = 'translateY(-52px) scale(0.82)';
+    t.style.opacity    = '0';
+  });
+  await delay(300);
+  // Caller re-renders the board; the new solved row slides in from above via solvedIn
 }
 
 async function animateWrong(guess, oneAway) {
@@ -416,6 +433,30 @@ function showEndOverlay() {
   });
 
   document.getElementById('end-overlay').classList.remove('hidden');
+}
+
+// ─── board sizing ─────────────────────────────────────────────────────────────
+
+// Make solved-group rows exactly as tall as a word tile.
+// CSS alone can't account for the grid gap deducted from tile width, so JS measures
+// a live tile and sets an explicit height on every solved-group element.
+function syncSolvedGroupHeights() {
+  requestAnimationFrame(() => {
+    const tile = document.querySelector('#word-grid .word-tile');
+    if (!tile) return;
+    const h = tile.getBoundingClientRect().height;
+    if (h <= 0) return;
+    document.querySelectorAll('.solved-group').forEach(g => {
+      g.style.height = h + 'px';
+    });
+  });
+}
+
+function setupBoardObserver() {
+  if (boardObserver) boardObserver.disconnect();
+  const grid = document.getElementById('word-grid');
+  boardObserver = new ResizeObserver(syncSolvedGroupHeights);
+  boardObserver.observe(grid);
 }
 
 // ─── shuffle ──────────────────────────────────────────────────────────────────
