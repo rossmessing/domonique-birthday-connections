@@ -353,8 +353,12 @@ async function animateCorrect(guess, tier) {
   });
   await delay(tiles.length * 80 + 420);
 
-  // Phase 2: tiles fly upward and fade out, signalling they're moving to the solved row
+  // Phase 2: tiles fly upward and fade out.
+  // Must remove .flipping first — a CSS animation with fill:both holds transform
+  // and will override any inline style we try to set.
   tiles.forEach(t => {
+    t.classList.remove('flipping');
+    void t.offsetHeight; // force reflow so the animation release is committed
     t.style.transition = 'transform 0.28s ease-in, opacity 0.22s ease-in';
     t.style.transform  = 'translateY(-52px) scale(0.82)';
     t.style.opacity    = '0';
