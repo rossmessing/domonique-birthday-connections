@@ -36,6 +36,7 @@ let selectedWords   = new Set();
 let isAnimating     = false;
 let lastSolvedTier  = null; // tier just solved this turn; renderSolvedGroups uses it to skip re-animating existing rows
 let boardObserver   = null; // ResizeObserver that keeps solved-group rows the same height as tiles
+let lastTileHeight  = 0;   // cached tile height so solved rows keep their size even when the grid is empty
 
 // ─── init ─────────────────────────────────────────────────────────────────────
 
@@ -135,7 +136,8 @@ function openPuzzle(puzzleId) {
   }
 
   selectedWords.clear();
-  isAnimating = false;
+  isAnimating    = false;
+  lastTileHeight = 0;
 
   document.getElementById('selection-screen').classList.remove('active');
   document.getElementById('game-screen').classList.add('active');
@@ -175,8 +177,8 @@ function renderGame() {
 function renderSolvedGroups() {
   const wrap = document.getElementById('solved-groups');
   wrap.innerHTML = '';
-  const sorted = [...gameState.solvedTiers].sort((a, b) => a - b);
-  sorted.forEach(tier => {
+  // Keep solve order — do NOT sort by tier
+  gameState.solvedTiers.forEach(tier => {
     const grp = currentPuzzle.groups.find(g => g.tier === tier);
     if (!grp) return;
     const div = document.createElement('div');
@@ -444,15 +446,25 @@ function showEndOverlay() {
 // Make solved-group rows exactly as tall as a word tile.
 // CSS alone can't account for the grid gap deducted from tile width, so JS measures
 // a live tile and sets an explicit height on every solved-group element.
+// When the grid is empty (all groups solved) it falls back to the cached height,
+// or calculates it from the grid width so the win state looks right too.
 function syncSolvedGroupHeights() {
   requestAnimationFrame(() => {
-    const tile = document.querySelector('#word-grid .word-tile');
-    if (!tile) return;
-    const h = tile.getBoundingClientRect().height;
-    if (h <= 0) return;
-    document.querySelectorAll('.solved-group').forEach(g => {
-      g.style.height = h + 'px';
-    });
+    const grid = document.getElementById('word-grid');
+    const tile = grid.querySelector('.word-tile');
+    if (tile) {
+      const h = tile.getBoundingClientRect().height;
+      if (h > 0) lastTileHeight = h;
+    } else if (lastTileHeight === 0) {
+      // No tiles ever measured — derive from grid width (tile = (w - 3*gap) / 4, aspect-ratio 1)
+      const w = grid.getBoundingClientRect().width;
+      if (w > 0) lastTileHeight = (w - 3 * 8) / 4;
+    }
+    if (lastTileHeight > 0) {
+      document.querySelectorAll('.solved-group').forEach(g => {
+        g.style.height = lastTileHeight + 'px';
+      });
+    }
   });
 }
 
